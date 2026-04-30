@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nobi Nobi</title>
+<meta name="description" content="ストレッチ用の33秒/7秒タイマー">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1a1d2e">
+<meta name="apple-mobile-web-app-title" content="Nobi Nobi">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-cat="a">
+  <header class="masthead">
+    <span class="logo-mark" aria-hidden="true"></span>
+    <span class="logo-word">Nobi Nobi</span>
+  </header>
+
+  <main class="stage" aria-label="ストレッチタイマー">
+    <span class="watermark watermark-a" aria-hidden="true"></span>
+    <span class="watermark watermark-b" aria-hidden="true"></span>
+
+    <div class="dial">
+      <svg class="ring" viewBox="0 0 200 200" aria-hidden="true">
+        <circle class="ring-track" cx="100" cy="100" r="92"/>
+        <circle class="ring-progress" cx="100" cy="100" r="92"
+                pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="0"/>
+      </svg>
+      <div class="readout" role="status" aria-live="polite">
+        <div class="seconds" id="seconds">33</div>
+        <div class="phase" id="phase">Stretch</div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="controls">
+    <button id="btn-toggle" class="btn btn-primary" type="button" aria-label="スタート">
+      <span class="btn-icon" id="btn-toggle-icon" aria-hidden="true">▶</span>
+    </button>
+    <button id="btn-reset" class="btn btn-ghost" type="button" aria-label="リセット">
+      <span class="btn-icon" aria-hidden="true">↺</span>
+    </button>
+    <button id="btn-mute" class="btn btn-ghost" type="button" aria-label="ミュート切替" aria-pressed="false">
+      <span class="btn-icon" id="btn-mute-icon" aria-hidden="true">♪</span>
+    </button>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
