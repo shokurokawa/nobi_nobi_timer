@@ -228,6 +228,9 @@
     else if (e.key === 'm' || e.key === 'M') { toggleMute(); }
   });
 
+  // Sync cycleIndex with the random initial cat picked at page load (see inline script in HTML)
+  state.cycleIndex = els.body.dataset.cat === 'b' ? 1 : 0;
+
   // Initial render
   setPhase('stretch');
   render(PHASE_DURATIONS.stretch);
