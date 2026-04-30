@@ -6,7 +6,7 @@
   --accent: #d4a574;
   --accent-rest: #b6a8d6;
   --track: #2c2f44;
-  --watermark: rgba(232, 226, 212, 0.13);
+  --watermark: rgba(232, 226, 212, 0.18);
 }
 
 * { box-sizing: border-box; }
