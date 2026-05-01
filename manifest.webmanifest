@@ -1,7 +1,7 @@
 {
   "name": "Nobi Nobi",
   "short_name": "Nobi Nobi",
-  "description": "ストレッチ用 33秒/7秒タイマー",
+  "description": "ストレッチ用 32秒/8秒タイマー",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

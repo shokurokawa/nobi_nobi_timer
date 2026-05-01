@@ -6,7 +6,10 @@
   --accent: #d4a574;
   --accent-rest: #b6a8d6;
   --track: #2c2f44;
-  --watermark: rgba(232, 226, 212, 0.18);
+  /* Watermark color uses MAX alpha (0.24). The stage breath animation
+     scales overall opacity between 0.333 and 1.0, yielding an effective
+     alpha range of 0.08 (exhaled) – 0.24 (inhaled). */
+  --watermark: rgba(232, 226, 212, 0.24);
 }
 
 * { box-sizing: border-box; }
@@ -72,13 +75,38 @@ body {
   min-height: 0;
 }
 
+.watermark-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 0;
+  /* 8s cycle: 3s inhale + 5s exhale (matches a real stretching breath). */
+  animation: breath 8s ease-in-out infinite;
+  will-change: opacity;
+}
+
+@keyframes breath {
+  /*  Time | Phase            | stage opacity | effective alpha (× 0.24)
+   * ------+------------------+---------------+--------------------------
+   *  0.0s | exhaled (start)  | 0.333         | 0.08
+   *  3.0s | inhaled (peak)   | 1.000         | 0.24
+   *  8.0s | exhaled (end)    | 0.333         | 0.08
+   * ease-in-out applies inside each segment (inhale and exhale) to
+   * keep slope continuous across the peak and the loop boundary,
+   * yielding a smooth gradient with no snap. */
+  0%      { opacity: 0.333; animation-timing-function: ease-in-out; }
+  37.5%   { opacity: 1.000; animation-timing-function: ease-in-out; }
+  100%    { opacity: 0.333; }
+}
+
 .watermark {
   position: absolute;
   width: min(70vmin, 520px);
   height: min(70vmin, 520px);
   background-color: var(--watermark);
-  pointer-events: none;
-  z-index: 0;
   transition: opacity 1800ms ease-in-out;
   -webkit-mask-repeat: no-repeat;
           mask-repeat: no-repeat;
@@ -89,13 +117,13 @@ body {
 }
 
 .watermark-a {
-  -webkit-mask-image: url('icon/black_cat_stretch_top_clean.png');
-          mask-image: url('icon/black_cat_stretch_top_clean.png');
+  -webkit-mask-image: var(--cat-a);
+          mask-image: var(--cat-a);
   opacity: 1;
 }
 .watermark-b {
-  -webkit-mask-image: url('icon/black_cat_stretch_bottom.png');
-          mask-image: url('icon/black_cat_stretch_bottom.png');
+  -webkit-mask-image: var(--cat-b);
+          mask-image: var(--cat-b);
   opacity: 0;
 }
 body[data-cat="b"] .watermark-a { opacity: 0; }
@@ -232,4 +260,5 @@ body[data-phase="rest"] .btn-primary {
   .ring-progress, body.flash .ring-progress { animation: none; transition: none; }
   .btn { transition: none; }
   .watermark { transition: none; }
+  .watermark-stage { animation: none; opacity: 0.7; }
 }
