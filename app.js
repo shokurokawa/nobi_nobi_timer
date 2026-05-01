@@ -1,5 +1,5 @@
 (() => {
-  const PHASE_DURATIONS = { stretch: 33000, rest: 7000 };
+  const PHASE_DURATIONS = { stretch: 32000, rest: 8000 };
   const NEXT_PHASE = { stretch: 'rest', rest: 'stretch' };
 
   const els = {
@@ -136,10 +136,10 @@
       pulseFlash();
       const overflow = -remain; // carry leftover into next phase for accuracy
       const next = NEXT_PHASE[state.phase];
-      // Cycle boundary: rest -> stretch swaps the watermark cat
+      // Cycle boundary: rest -> stretch — pick a fresh random cat for the watermark
       if (state.phase === 'rest' && next === 'stretch') {
         state.cycleIndex += 1;
-        els.body.dataset.cat = (state.cycleIndex % 2 === 0) ? 'a' : 'b';
+        rotateWatermark();
       }
       setPhase(next);
       state.phaseStartedAt = now - overflow;
@@ -150,6 +150,25 @@
     }
 
     state.rafId = requestAnimationFrame(loop);
+  }
+
+  // ---------- Watermark rotation ----------
+  function rotateWatermark() {
+    const list = window.NOBI_CAT_IMAGES;
+    const catState = window.NOBI_CAT_STATE;
+    if (!list || list.length < 2 || !catState) return;
+    let nextIndex;
+    do {
+      nextIndex = Math.floor(Math.random() * list.length);
+    } while (nextIndex === catState.visibleIndex && list.length > 1);
+    const visibleLayer = els.body.dataset.cat;
+    const hiddenLayer = visibleLayer === 'a' ? 'b' : 'a';
+    document.documentElement.style.setProperty(
+      '--cat-' + hiddenLayer,
+      "url('" + list[nextIndex] + "')"
+    );
+    els.body.dataset.cat = hiddenLayer;
+    catState.visibleIndex = nextIndex;
   }
 
   // ---------- Wake Lock ----------
@@ -196,7 +215,7 @@
     state.pauseRemainMs = PHASE_DURATIONS.stretch;
     state.lastTickSecond = null;
     state.cycleIndex = 0;
-    els.body.dataset.cat = 'a';
+    // Watermark stays as-is so the user keeps the cat they were looking at.
     render(state.pauseRemainMs);
   }
 

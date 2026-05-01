@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nobi Nobi</title>
-<meta name="description" content="ストレッチ用の33秒/7秒タイマー">
+<meta name="description" content="ストレッチ用の32秒/8秒タイマー">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -17,14 +17,51 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body data-cat="a">
+  <script>
+  (function () {
+    const VER2 = 'icon/black_cat_silhouettes_ver2_from_attached_preview/';
+    const CAT_IMAGES = [
+      'icon/black_cat_stretch_top_clean.png',
+      'icon/black_cat_stretch_bottom.png',
+      VER2 + 'black_cat_01_sitting.png',
+      VER2 + 'black_cat_02_walking.png',
+      VER2 + 'black_cat_03_loaf.png',
+      VER2 + 'black_cat_04_curled_sleeping.png',
+      VER2 + 'black_cat_05_stretching.png',
+      VER2 + 'black_cat_06_jumping.png',
+      VER2 + 'black_cat_07_looking_back.png',
+      VER2 + 'black_cat_08_grooming.png',
+      VER2 + 'black_cat_09_tail_up_standing.png',
+      VER2 + 'black_cat_10_arched_back.png',
+    ];
+    window.NOBI_CAT_IMAGES = CAT_IMAGES;
+
+    function pick(except) {
+      let i;
+      do { i = Math.floor(Math.random() * CAT_IMAGES.length); }
+      while (i === except && CAT_IMAGES.length > 1);
+      return i;
+    }
+    const aIdx = pick(-1);
+    const bIdx = pick(aIdx);
+    document.documentElement.style.setProperty('--cat-a', "url('" + CAT_IMAGES[aIdx] + "')");
+    document.documentElement.style.setProperty('--cat-b', "url('" + CAT_IMAGES[bIdx] + "')");
+    document.body.dataset.cat = Math.random() < 0.5 ? 'a' : 'b';
+    window.NOBI_CAT_STATE = {
+      visibleIndex: document.body.dataset.cat === 'a' ? aIdx : bIdx,
+    };
+  })();
+  </script>
   <header class="masthead">
     <span class="logo-mark" aria-hidden="true"></span>
     <span class="logo-word">Nobi Nobi</span>
   </header>
 
   <main class="stage" aria-label="ストレッチタイマー">
-    <span class="watermark watermark-a" aria-hidden="true"></span>
-    <span class="watermark watermark-b" aria-hidden="true"></span>
+    <div class="watermark-stage" aria-hidden="true">
+      <span class="watermark watermark-a"></span>
+      <span class="watermark watermark-b"></span>
+    </div>
 
     <div class="dial">
       <svg class="ring" viewBox="0 0 200 200" aria-hidden="true">
@@ -33,7 +70,7 @@
                 pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="0"/>
       </svg>
       <div class="readout" role="status" aria-live="polite">
-        <div class="seconds" id="seconds">33</div>
+        <div class="seconds" id="seconds">32</div>
         <div class="phase" id="phase">Stretch</div>
       </div>
     </div>
