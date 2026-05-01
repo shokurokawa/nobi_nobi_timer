@@ -259,6 +259,8 @@ body[data-phase="rest"] .btn-primary {
 @media (prefers-reduced-motion: reduce) {
   .ring-progress, body.flash .ring-progress { animation: none; transition: none; }
   .btn { transition: none; }
-  .watermark { transition: none; }
-  .watermark-stage { animation: none; opacity: 0.7; }
+  /* The watermark crossfade and breath animation are slow and gentle by
+     design (1.8s and 8s respectively). They stay enabled even under
+     prefers-reduced-motion: reduce so the cat watermark continues to
+     breathe and rotate — that is the core visual identity of the app. */
 }
