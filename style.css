@@ -137,7 +137,12 @@ body[data-cat="b"] .watermark-b { opacity: 1; }
   align-items: center;
   justify-content: center;
   z-index: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 120ms ease;
 }
+
+.dial:active { transform: scale(0.985); }
 
 .ring {
   position: absolute;
