@@ -233,11 +233,15 @@
     els.mute.setAttribute('aria-label', state.muted ? 'ミュート解除' : 'ミュート');
   }
 
-  els.toggle.addEventListener('click', () => {
+  function toggleRun() {
     if (state.running) pause(); else start();
-  });
+  }
+  els.toggle.addEventListener('click', toggleRun);
   els.reset.addEventListener('click', reset);
   els.mute.addEventListener('click', toggleMute);
+
+  // Tapping/clicking the timer dial also starts/pauses (same as the main button).
+  document.querySelector('.dial').addEventListener('click', toggleRun);
 
   // Keyboard shortcuts: space=toggle, R=reset, M=mute
   document.addEventListener('keydown', (e) => {
